@@ -1,70 +1,110 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Projet VM
+- En binome avec : Biraveen SIVAHARAN et Alex CORCEIRO
 
-## Available Scripts
+# Le but de notre Projet
 
-In the project directory, you can run:
+- RÃ©aliser un projet complet intÃ©grant les enseignements dispensÃ©s durant la session decours en utilisant les outils Ã©tudiÃ©s pendant le cursus, ou en y intÃ©grant des outils au choixet innovant.
 
-### `npm start`
+# Par ou commencer ?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Dans un premier temps nous devons prendre connaissance des technologie ainsi que les comprendre.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Les technologies : 
+- Vagrant : Pour la crÃ©ation de notre machine virtuelle grace Ã  l'aide d'un script qui permettra de nous crÃ©er la machine virtuelle de facon autonome.
+- Ansible : Pour installer les logiciels de facon automatique grace Ã  l'aide  d'un script.
+- Docker : Permettra de deployer notre application web.
+- MongoDB : Base de donnÃ©e qui permettra de stocker les donnÃ©es des utilisateurs.
+- React : Framework qui regroupe l'HTML,CSS et javascript qui nous permettra de concevoir notre future application.
+- VMware : Logiciel pour crÃ©er nos machines virtuelles
+- Ubuntu : SystÃ¨me dâ€™exploitation GNU/Linux fondÃ© sur Debian.
+- Visual studio code : Environnement de dÃ©veloppement.
 
-### `npm test`
+# 1ere partie : Ansible / Vagrant
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 1ere Ã©tape : Ansible
+- Installation des technologies et des paquets en passant par ces commandes :
 
-### `npm run build`
+```
+python3 â€“m pip install--user ansible
+```
+- S'assurer d'avoir la bonne version de ANSIBLE
+```
+ansible --version
+```
+- Le mettre Ã  jour
+```
+python3 -m pip install --upgrade --user ansible
+```
+# 2eme Ã©tapes : Configuration d'ansible
+```
+sudo apt update 
+sudo apt install software-properties-common 
+sudo add-apt-repository --yes --update ppa:ansible/ansible 
+sudo apt install ansible
+```
+# 3eme Ã©tapes : Mise en place de vagrant
+- Dans cette Ã©tape, nous allons mettre en place un vagrantfile qui va nous servir pour crÃ©er notre machine virtuelle distante. Pour cela voici le script :
+```
+ Vagrant.configure("2") do |config|
+  # Configuration de la box
+  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box_version = "202004.27.0"
+  # Configuration de la machine virtuelle
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "bento/ubuntu-20.04"
+    ubuntu.vm.provider "vmware_workstation" do |v| 
+      v.memory = 2048
+      v.cpus = 2
+      v.gui = true
+    end
+  end
+end
+```
+- Pour exÃ©cuter voici la commande :
+```
+vagrant up
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Le rÃ©sultat :
+```
+ La vm s'est crÃ©e d'aprÃ¨s les caractÃ©ristiques qu'on lui a fournis.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 4eme Ã©tapes : Mise en place de Ansible
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Dans cette partie, nous allons mettre en place un playbook qui va nous permettre d'installer les logiciels qu'on souhaite de maniÃ¨re automatique dans notre vm grace Ã  son adresse IP pour faire lien. Voici le script :
+ ```
+---
+- name: Installer Visual Studio Code
+  hosts: 192.168.59.128
+  become: true
+  tasks:
+    - name: TÃ©lÃ©charger la clÃ© GPG de Microsoft
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
 
-### `npm run eject`
+    - name: Ajouter le dÃ©pÃ´t Visual Studio Code
+      apt_repository:
+        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+        state: present
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    - name: Installer Visual Studio Code
+      apt:
+        name: code
+        state: present
+ ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Pour exÃ©cuter notre playbook :
+```
+ansible-playbook playbook.yml
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# 2eme partie : Docker
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
