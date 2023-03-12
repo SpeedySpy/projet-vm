@@ -4,7 +4,7 @@
 
 # Le but de notre Projet
 
-- RÃ©aliser un projet complet intÃ©grant les enseignements dispensÃ©s durant la session decours en utilisant les outils Ã©tudiÃ©s pendant le cursus, ou en y intÃ©grant des outils au choixet innovant.
+- Réaliser un projet complet  intégrant les enseignements dispensÃ©s durant la session decours en utilisant les outils étudiés pendant le cursus, ou en y intégrant des outils au choix et innovant.
 
 # Par ou commencer ?
 
@@ -12,7 +12,7 @@
 
 # Les technologies : 
 - Vagrant : Pour la création de notre machine virtuelle grace à l'aide d'un script qui permettra de nous créer la machine virtuelle de facon autonome.
-- Ansible : Pour installer les logiciels de facon automatique grace Ã  l'aide  d'un script.
+- Ansible : Pour installer les logiciels de facon automatique grace à l'aide  d'un script.
 - Docker : Permettra de deployer notre application web.
 - MongoDB : Base de donnée qui permettra de stocker les donnÃ©es des utilisateurs.
 - React : Framework qui regroupe l'HTML,CSS et javascript qui nous permettra de concevoir notre future application.
@@ -100,11 +100,5 @@ vagrant up
 ```
 ansible-playbook playbook.yml
 ```
-
-# 2eme partie : Docker
-
-
-
-
 
 
